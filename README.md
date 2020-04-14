@@ -6,4 +6,4 @@ Can solve a sudoku puzzle of *challenging* difficulty level
 3. Save the input file and run *sudoku_solver(python file)*
 ## Solution for the puzzle
 The solution will appear in the above *puzzle_output(text_file)*
-##Have fun
+## Have fun☺
