@@ -25,6 +25,7 @@ ret_val = 0
 sudoku_ret_val = []
 f = 0
 sudoku_dup = []
+a = 0
 
 
 #Code to input the puzzle: 
@@ -50,22 +51,25 @@ while check_puzzle_full(sudoku_lists) == 0:
     sudoku_check = copy.deepcopy(sudoku_lists)
     sudoku_dup = copy.deepcopy(sudoku_lists)
 
-    ret_val = puz_procedure(sudoku_lists)
+    sudoku_ret_val = copy.deepcopy(puz_procedure(sudoku_lists))
+    sudoku_lists = copy.deepcopy(sudoku_ret_val[0])
 
     #To invoke assume_solver():
     if sudoku_check == sudoku_lists:    
         for r in range(1, 10):
             for c in range(1, 10):
                 if sudoku_dup[r-1][c-1] == 0:
+                    a += 1
                     box = return_box(sudoku_dup,r,c)
                     col = return_col(sudoku_dup,c)
                     poss_outcome = find_possible_values(sudoku_dup,r,col,box).copy()
-                    if len(poss_outcome) == 2:
-                        sudoku_ret_val = assume_solver(sudoku_dup,poss_outcome,r,c)
-                        sudoku_dup = sudoku_ret_val[0][0]
-                        ret_val = sudoku_ret_val[0][1]
-                        if ret_val == 1:
-                            sudoku_lists = copy.deepcopy(sudoku_dup)
+                    sudoku_ret_val = copy.deepcopy(assume_solver(sudoku_dup,poss_outcome,r,c))
+                    sudoku_dup = copy.deepcopy(sudoku_ret_val[0])
+                    ret_val = sudoku_ret_val[1]
+                    if ret_val == 1:
+                        sudoku_lists = copy.deepcopy(sudoku_dup)
+
+
                         
     if check_puzzle_full(sudoku_lists) == 1:
         puz_done = "dondonakadone"

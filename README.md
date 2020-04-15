@@ -1,5 +1,5 @@
 # Sudoku-solver
-Can solve a sudoku puzzle of *challenging* difficulty level
+Can solve a sudoku puzzle of *extreme* difficulty level
 ## To get started
 1. Input a challenging level sudoku puzzle in the above *puzzle_input(text_file)*
 2. For blank squares in the puzzle enter **zero(0)**

@@ -89,29 +89,29 @@ def puz_procedure(puzzle_grid):
         puz_check = copy.deepcopy(puzzle_grid)
         ret_val = basic_solver(puzzle_grid)
         if ret_val == 1:
-            puz_ret_val.append([puzzle_grid,1])
+            puz_ret_val = [puzzle_grid,1]
             return puz_ret_val
         for r in range(1, 9, 3):
             for c in range(1, 9, 3):
-                sudoku_ret_val = copy.deepcopy(box_solver(puzzle_grid,r,c))
-                puzzle_grid = copy.deepcopy(sudoku_ret_val[0][0])
-                ret_val = sudoku_ret_val[0][1]
+                puz_ret_val = copy.deepcopy(box_solver(puzzle_grid,r,c))
+                puzzle_grid = copy.deepcopy(puz_ret_val[0])
+                ret_val = puz_ret_val[1]
     
         for r in range(1,10):
-            sudoku_ret_val = copy.deepcopy(column_solver(puzzle_grid,r))
-            puzzle_grid = copy.deepcopy(sudoku_ret_val[0][0])
-            ret_val = sudoku_ret_val[0][1]
+            puz_ret_val = copy.deepcopy(column_solver(puzzle_grid,r))
+            puzzle_grid = copy.deepcopy(puz_ret_val[0])
+            ret_val = puz_ret_val[1]
             
         for c in range(1,10):
-            sudoku_ret_val = copy.deepcopy(row_solver(puzzle_grid,c))
-            puzzle_grid = copy.deepcopy(sudoku_ret_val[0][0])
-            ret_val = sudoku_ret_val[0][1]
+            puz_ret_val = copy.deepcopy(row_solver(puzzle_grid,c))
+            puzzle_grid = copy.deepcopy(puz_ret_val[0])
+            ret_val = puz_ret_val[1]
 
         if check_puzzle_full(puzzle_grid) == 1:
-            puz_ret_val.append([puzzle_grid,1])
+            puz_ret_val = [puzzle_grid,1]
             return puz_ret_val
         if puz_check == puzzle_grid:
-            puz_ret_val.append([puzzle_grid,0])
+            puz_ret_val = [puzzle_grid,0]
             return puz_ret_val
         
             
@@ -147,7 +147,7 @@ def checker(puzzle_grid, poss_r_c):
             puzzle_grid[poss_r_c[loc][1] - 1][poss_r_c[loc][2] - 1] = element  
             success = 1
             break
-    grid_suc.append([puzzle_grid,success])
+    grid_suc = [puzzle_grid,success]
     return grid_suc
 
 def box_solver(puzzle_grid,r,c):
@@ -161,10 +161,10 @@ def box_solver(puzzle_grid,r,c):
                 poss_outcome = find_possible_values(puzzle_grid,row,col,box).copy()   
                 poss_r_c.append([poss_outcome,row,column])
     grid_ret_val = copy.deepcopy(checker(puzzle_grid, poss_r_c))
-    ret_val = grid_ret_val[0][1]
+    ret_val = grid_ret_val[1]
     if ret_val == 1:
-        ret_val = basic_solver(grid_ret_val[0][0])
-        grid_ret_val[0][1] = ret_val 
+        ret_val = basic_solver(grid_ret_val[0])
+        grid_ret_val[1] = ret_val 
     return grid_ret_val
 
 def column_solver(puzzle_grid,r):
@@ -177,10 +177,10 @@ def column_solver(puzzle_grid,r):
             poss_outcome = find_possible_values(puzzle_grid,r,col,box).copy()   
             poss_r_c.append([poss_outcome,r,column])
     grid_ret_val = copy.deepcopy(checker(puzzle_grid, poss_r_c))
-    ret_val = grid_ret_val[0][1]
+    ret_val = grid_ret_val[1]
     if ret_val == 1:
-        ret_val = basic_solver(grid_ret_val[0][0])
-        grid_ret_val[0][1] = ret_val 
+        ret_val = basic_solver(grid_ret_val[0])
+        grid_ret_val[1] = ret_val 
     return grid_ret_val
 
 def row_solver(puzzle_grid,c):
@@ -193,33 +193,26 @@ def row_solver(puzzle_grid,c):
             poss_outcome = find_possible_values(puzzle_grid,row,col,box).copy()   
             poss_r_c.append([poss_outcome,row,c])
     grid_ret_val = copy.deepcopy(checker(puzzle_grid, poss_r_c))
-    ret_val = grid_ret_val[0][1]
+    ret_val = grid_ret_val[1]
     if ret_val == 1:
-        ret_val = basic_solver(grid_ret_val[0][0])
-        grid_ret_val[0][1] = ret_val 
+        ret_val = basic_solver(grid_ret_val[0])
+        grid_ret_val[1] = ret_val 
     return grid_ret_val
 
 
                 
 def assume_solver(puzzle_grid,possibilities,r,c):
-    puz_copy1 = copy.deepcopy(puzzle_grid)
-    puz_copy2 = copy.deepcopy(puzzle_grid)
-    puz_ret_val = []
-    puz_ret_value = []
-    puz_ret_value.append([puzzle_grid,0])
-    puzzle_grid[r-1][c-1] = possibilities[0]
-    puz_ret_val = copy.deepcopy(puz_procedure(puz_copy1))
-    ret_val = puz_ret_val[0][1]
-    if ret_val == 1:
-        return puz_ret_val
-    else:
-        puzzle_grid[r-1][c-1] = possibilities[1]
-        puz_ret_val = copy.deepcopy(puz_procedure(puz_copy2))
-        ret_val = puz_ret_val[0][1]
+    puz_dup = copy.deepcopy(puzzle_grid)
+    for element in possibilities:
+        puzzle_grid[r-1][c-1] = element
+        puz_ret_val = copy.deepcopy(puz_procedure(puzzle_grid))
+        ret_val = puz_ret_val[1]
         if ret_val == 1:
             return puz_ret_val
-        else:
-            return puz_ret_value
+    puz_ret_val = [puz_dup,0]
+    return puz_ret_val
+
+        
 
 
         
