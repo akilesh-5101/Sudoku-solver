@@ -7,3 +7,4 @@ Can solve a sudoku puzzle of *extreme* difficulty level
 ## Solution for the puzzle
 The solution will appear in the above *puzzle_output(text_file)*
 ## Have fun☺
+![**_SUDOKU_**]Top-15-Best-Sudoku-Games-Pc-2020-6.jpg
